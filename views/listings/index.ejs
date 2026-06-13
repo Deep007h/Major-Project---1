@@ -1,0 +1,67 @@
+<% layout("/layouts/boilerplate") %>
+<body>
+    <div class="row mt-3">
+        <div class="col-12 mb-3">
+            <h1 class="display-6">All Property Listings</h1>
+            <p class="text-muted">Discover your perfect property from our curated collection</p>
+        </div>
+        
+        <% if(allListings.length === 0) { %>
+            <div class="col-12 text-center py-5">
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle me-2"></i>
+                    No listings found. <a href="/listings/new" class="alert-link">Create your first listing!</a>
+                </div>
+            </div>
+        <% } %>
+        
+        <% for(let listing of allListings) { %>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow-sm listing-card">
+                    <img src="<%= listing.image?.url || 'https://images.unsplash.com/photo-1518780664697-55e3ad937233?q=80&w=1965' %>" 
+                         class="card-img-top" 
+                         alt="<%= listing.title %>"
+                         style="height: 200px; object-fit: cover;">
+                    <div class="card-body">
+                        <h5 class="card-title text-truncate"><%= listing.title %></h5>
+                        <p class="card-text text-muted text-truncate">
+                            <%= listing.description %>
+                        </p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="badge bg-primary fs-6">
+                                <i class="fas fa-tag me-1"></i>
+                                $<%= listing.price ? listing.price.toLocaleString() : 'N/A' %>
+                            </span>
+                            <span class="text-muted small">
+                                <i class="fas fa-map-marker-alt me-1"></i>
+                                <%= listing.location %>, <%= listing.country %>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <div class="d-flex gap-2">
+                            <a href="/listings/<%= listing._id %>" class="btn btn-outline-primary btn-sm flex-grow-1">
+                                <i class="fas fa-eye me-1"></i> View
+                            </a>
+                            <a href="/listings/<%= listing._id %>/edit" class="btn btn-outline-secondary btn-sm">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <% } %>
+    </div>
+    
+    <style>
+        .listing-card {
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: none;
+            border-radius: 12px;
+        }
+        .listing-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15) !important;
+        }
+    </style>
+</body>

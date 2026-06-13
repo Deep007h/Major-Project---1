@@ -1,0 +1,40 @@
+{
+  "name": "wanderland",
+  "version": "1.0.0",
+  "description": "WanderLand - Property Listing Platform",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Deep007h/Major-Project---1.git"
+  },
+  "keywords": [
+    "property",
+    "listing",
+    "real-estate",
+    "nodejs",
+    "express",
+    "mongodb"
+  ],
+  "author": "Deep007h",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Deep007h/Major-Project---1/issues"
+  },
+  "homepage": "https://github.com/Deep007h/Major-Project---1#readme",
+  "dependencies": {
+    "connect-flash": "^1.1.1",
+    "ejs": "^3.1.10",
+    "ejs-mate": "^4.0.0",
+    "express": "^5.1.0",
+    "express-session": "^1.18.0",
+    "method-override": "^3.0.0",
+    "mongoose": "^8.16.0"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

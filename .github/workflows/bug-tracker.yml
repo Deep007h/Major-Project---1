@@ -1,0 +1,70 @@
+name: Bug & Fix Tracker
+
+on:
+  schedule:
+    - cron: "0 8 * * 1"
+  workflow_dispatch:
+
+jobs:
+  track-bugs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Run bug tracker
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python << 'PYTHON_SCRIPT'
+import os
+import requests
+from datetime import datetime, timedelta
+
+GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN")
+REPOS = ["Deep007h/Major-Project---1", "Deep007h/Mini-Project-1"]
+HEADERS = {"Authorization": f"token {GITHUB_TOKEN}", "Accept": "application/vnd.github.v3+json"}
+
+def get_issues(repo):
+    url = f"https://api.github.com/repos/{repo}/issues?state=open"
+    resp = requests.get(url, headers=HEADERS)
+    return resp.json() if resp.status_code == 200 else []
+
+def get_pulls(repo):
+    url = f"https://api.github.com/repos/{repo}/pulls?state=open"
+    resp = requests.get(url, headers=HEADERS)
+    return resp.json() if resp.status_code == 200 else []
+
+def get_commits(repo, days=7):
+    since = (datetime.now() - timedelta(days=days)).isoformat()
+    url = f"https://api.github.com/repos/{repo}/commits?since={since}"
+    resp = requests.get(url, headers=HEADERS)
+    return resp.json() if resp.status_code == 200 else []
+
+print(f"=== Bug & Fix Report - {datetime.now().strftime('%Y-%m-%d')} ===\n")
+for repo in REPOS:
+    print(f"Repository: {repo}")
+    issues = get_issues(repo)
+    pulls = get_pulls(repo)
+    commits = get_commits(repo)
+    print(f"  Open Issues: {len(issues)}")
+    print(f"  Open PRs: {len(pulls)}")
+    print(f"  Recent Commits (7 days): {len(commits)}")
+    print()
+          PYTHON_SCRIPT
+
+      - name: Create issue summary
+        run: echo "Bug tracking completed" >> bug_report.txt
+
+      - name: Commit report
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Update bug report - $(date +%Y-%m-%d)"

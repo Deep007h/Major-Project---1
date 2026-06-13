@@ -1,0 +1,106 @@
+<% layout("/layouts/boilerplate") %>
+<body>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0"><i class="fas fa-plus-circle me-2"></i>Create New Listing</h3>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="/listings" class="needs-validation" novalidate>
+                        <div class="mb-3">
+                            <label for="title" class="form-label">Property Title *</label>
+                            <input type="text" 
+                                   class="form-control" 
+                                   id="title" 
+                                   name="listing[title]" 
+                                   placeholder="e.g., Beautiful Beach House"
+                                   required>
+                            <div class="invalid-feedback">Please provide a title</div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Description</label>
+                            <textarea class="form-control" 
+                                      id="description" 
+                                      name="listing[description]" 
+                                      rows="4"
+                                      placeholder="Describe your property..."></textarea>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="image" class="form-label">Image URL</label>
+                            <input type="url" 
+                                   class="form-control" 
+                                   id="image" 
+                                   name="listing[image][url]" 
+                                   placeholder="https://example.com/image.jpg">
+                            <small class="text-muted">Or leave empty for default image</small>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="price" class="form-label">Price ($) *</label>
+                                <input type="number" 
+                                       class="form-control" 
+                                       id="price" 
+                                       name="listing[price]" 
+                                       placeholder="0"
+                                       min="0"
+                                       required>
+                                <div class="invalid-feedback">Please provide a valid price</div>
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label for="country" class="form-label">Country *</label>
+                                <input type="text" 
+                                       class="form-control" 
+                                       id="country" 
+                                       name="listing[country]" 
+                                       placeholder="e.g., India"
+                                       required>
+                                <div class="invalid-feedback">Please provide country</div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="location" class="form-label">Location *</label>
+                            <input type="text" 
+                                   class="form-control" 
+                                   id="location" 
+                                   name="listing[location]" 
+                                   placeholder="e.g., Goa, Maharashtra"
+                                   required>
+                            <div class="invalid-feedback">Please provide a location</div>
+                        </div>
+                        
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-2"></i>Create Listing
+                            </button>
+                            <a href="/listings" class="btn btn-secondary">
+                                <i class="fas fa-times me-2"></i>Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        (function() {
+            'use strict';
+            const forms = document.querySelectorAll('.needs-validation');
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', function(event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        })();
+    </script>
+</body>
